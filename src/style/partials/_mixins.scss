@@ -1,0 +1,68 @@
+/**************************
+*  Color
+**************************/
+
+// Allows access to color map by useing colors(main, color)
+// i.e. colors(primary, lighter) returns #DBE7EF
+@function colors($keys...) {
+  $value: $colors;
+  @each $key in $keys {
+    $value: map-get($value, $key);
+  }
+  @return $value;
+}
+
+
+/**************************
+*  Typography
+**************************/
+
+// Font Stack
+@mixin font($family, $size, $weight) {
+  font-family: $family;
+  font-size: font-size($size);
+  font-weight: $weight;
+}
+
+// Font Size
+@function font-size($size) {
+  @if not $size {
+    @return false;
+  }
+  @return (map-get($type-scale, $size) / map-get($type-scale, 'base')) * 1rem;
+}
+
+// Space After Paragraph
+@function space-after($line, $amount) {
+  @if not $line {
+    @return false;
+  }
+  @if not $amount {
+    @return false;
+  }
+  $one: map-get($line-height, $line) * map-get($type-scale, 'base');
+  @return ($one * $amount);
+
+}
+
+
+/**************************
+*  Breakpoints
+**************************/
+
+/* Media Breakpoints */
+@mixin for-phone-only {
+  @media (max-width: map-get($media, 'phone')) { @content; }
+}
+@mixin for-tablet-portrait-up {
+  @media (min-width: map-get($media, 'tablet')) { @content; }
+}
+@mixin for-tablet-landscape-up {
+  @media (min-width: map-get($media, 'landscape')) { @content; }
+}
+@mixin for-desktop-up {
+  @media (min-width: map-get($media, 'desktop')) { @content; }
+}
+@mixin for-big-desktop-up {
+  @media (min-width: map-get($media, 'large')) { @content; }
+}

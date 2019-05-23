@@ -1,0 +1,51 @@
+
+input,
+textarea,
+select {
+  border: 1px solid gray;
+  box-sizing: border-box;
+  display: block;
+  margin: 10px auto;
+  padding: 5px 10px;
+  width: 100%;
+}
+
+label,
+button {
+  box-sizing: border-box;
+  display: block;
+  margin: 20px auto;
+  text-align: left;
+}
+
+button,
+.button {
+  background-color: colors(primary, base);
+  border: 2px solid colors(primary, base);
+  border-radius: 5px;
+  color: colors(text, inverse);
+  display: inline-block;
+  margin: 20px 10px;
+  padding: 10px 20px;
+  text-decoration: none;
+
+  &:hover {
+    background-color: $background;
+    color: colors(primary, base);
+    cursor: pointer;
+    text-decoration: underline;
+  }
+
+  &:first-of-type {
+    margin-left: 0;
+  }
+
+  &.cancel {
+    background-color: colors(secondary, base);
+    border: 2px solid colors(secondary, base);
+
+    &:hover {
+      color: colors(secondary, base);
+    }
+  }
+}
