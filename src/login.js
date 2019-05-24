@@ -5,6 +5,16 @@ import * as Yup from 'yup'
 import axios from 'axios'
 import Swal from 'sweetalert2'
 import config from './config'
+import ACTIONS from "./modules/action";
+import { connect } from "react-redux";
+
+const mapStateToProps = state => ({
+  loggedIn: state.loggedIn
+});
+
+const mapDispatchToProps = dispatch => ({
+  login: credentials => dispatch(ACTIONS.login(credentials))
+});
 
 class Login extends Component {
   constructor(props) {
@@ -12,40 +22,18 @@ class Login extends Component {
 
     this.state = {
       username: '',
-      password: '',
-      login: false
+      password: ''
     }
 		this.recover = this.recover.bind(this)
 		this.submit = this.submit.bind(this)
 		this.change = this.change.bind(this)
   }
 
-  componentDidMount(prevProps) {
-    console.log(this.props.location, 'vs', prevProps)
-  }
-
   submit(values) {
     console.log('Loging in...')
-    console.log(values)
-    axios(`http://${config.api}/login`, {
-      method: "post",
-      data: {username: values.username, password: values.password},
-      withCredentials: 'include'
-    })
-    .then(res => {
-      console.log('Login Successful')
-      localStorage.setItem('access token', res.data.token)
-      this.setState({
-        login: <Redirect to={{pathname: '/dashboard'}}/>
-      })
-    })
-    .catch(error => {
-      Swal({
-        title: error.response.status+' Error',
-        type: 'error',
-        text:error.response.data.msg,
-      })
-    })
+    if (values) {
+      this.props.login(values);
+    }
   }
 
 	change(event) {
@@ -63,7 +51,7 @@ class Login extends Component {
       confirmButtonText: 'Look up',
       showLoaderOnConfirm: true,
       preConfirm: (login) => {
-        axios.get(`http://localhost:8000/login`, {
+        axios.get(`http://${config.api}/login`, {
     			user: login
     		})
         .then(response => {
@@ -81,9 +69,6 @@ class Login extends Component {
       allowOutsideClick: () => !Swal.isLoading()
     }).then((result) => {
       if (result.value) {
-      //  this.setState({
-  		//		login: <Redirect to={{pathname: '/login'}}/>
-  		//	})
         Swal.fire({
           title: `value`,
           html: result.value
@@ -105,7 +90,7 @@ class Login extends Component {
   //  console.log(this.props)
     return (
       <main className="wrapper">
-        {this.state.login && this.state.login}
+        {this.props.loggedIn && <Redirect to={{pathname: '/admin'}}/>}
         <section className="back_holder">
           <button className="link" onClick={()=>{this.props.history.goBack()}}>Back</button>
         </section>
@@ -144,9 +129,13 @@ class Login extends Component {
           </Formik>
           <button className="link" onClick={this.recover}>Forgot Password</button>
         </section>
+        <p>{this.props.user && this.props.user.name}</p>
       </main>
     );
   }
 }
 
-export default Login;
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Login);

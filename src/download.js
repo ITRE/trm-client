@@ -15,24 +15,26 @@ class Download extends Component {
       email: '',
       organization: '',
       title: '',
-      use: ''
+      use: '',
+      redirect:false
     }
 		this.submit = this.submit.bind(this)
   }
 
   submit(values) {
+    console.log(values)
     axios(`http://${config.api}/messages`, {
       method: "post",
       data: {
         ticket: {
-          user: '',
+          user: values.email,
           staff: '',
           thread_id: '',
           priority: 'Normal',
           status: 'New',
-          kind: '',
+          kind: 'Download',
           info: '',
-          subject: ''
+          subject: 'Request for TRM'
         },
         kind: {
           name: values.name,
@@ -45,11 +47,15 @@ class Download extends Component {
       withCredentials: 'include'
     })
     .then(res => {
-      console.log('Login Successful')
-      localStorage.setItem('access token', res.data.token)
-      this.setState({
-        login: <Redirect to={{pathname: '/dashboard'}}/>
-      })
+      Swal({
+        title: 'Submitted!',
+        type: 'success',
+        text: 'Your request has been submitted! We\'ll contact you as soon as we are able.',
+      }).then(
+        this.setState({
+          redirect: <Redirect to={{pathname: '/'}}/>
+        })
+      )
     })
     .catch(error => {
       Swal({
@@ -78,6 +84,7 @@ class Download extends Component {
 
     return (
       <main className="wrapper">
+        {this.state.redirect}
         <section className="backArrow">
           <a href="/"> Back </a>
         </section>

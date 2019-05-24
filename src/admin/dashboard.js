@@ -1,7 +1,16 @@
 import React, { Component } from 'react';
-import moment from 'moment'
-import Swal from 'sweetalert2'
-const jwt = require('jsonwebtoken')
+//import moment from 'moment'
+//import Swal from 'sweetalert2'
+import ACTIONS from "../modules/action";
+import { connect } from "react-redux";
+
+const mapStateToProps = state => ({
+  user: state.user
+});
+
+const mapDispatchToProps = dispatch => ({
+  login: tickets => dispatch(ACTIONS.login(tickets, dispatch))
+});
 
 class Dashboard extends Component {
 	constructor(props) {
@@ -14,39 +23,14 @@ class Dashboard extends Component {
 			redirect: false
     }
 
-		this.logout = this.logout.bind(this);
   }
-  componentDidMount() {
-    const tempToken = localStorage.getItem('access token');
-		if (tempToken) {
-			const tempUser = jwt.decode(tempToken)
-			if (moment.unix(tempUser.exp).isAfter(Date.now())) {
-				this.setState({
-					token: tempToken,
-					user: tempUser
-				})
-			} else {
-				Swal({
-				  title: 'Token Expired',
-				  type: 'warning',
-				  text:'Your login session has expired. Redirecting you to the login page.',
-				})
-				this.logout()
-			}
-		}
-  }
-
-	logout() {
-		localStorage.removeItem('access token')
-		this.setState({token: null, user: null})
-	}
 
   render() {
-    console.log(this.state)
+    console.log(this.props)
     return (
       <main className="wrapper">
         <section>
-          <h1>Welcome {this.state.user.name}</h1>
+          <h1>Welcome {this.props.user && this.props.user.name}</h1>
         </section>
         <section className="Content">
           <div>
@@ -58,4 +42,7 @@ class Dashboard extends Component {
   }
 }
 
-export default Dashboard;
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Dashboard);
