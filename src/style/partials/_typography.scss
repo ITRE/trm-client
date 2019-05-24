@@ -28,7 +28,17 @@ p {
 }
 
 a {
-  color: colors(primary, base);
+  color: colors(primary, dark);
+
+  &.dark {
+    color: colors(primary, base);
+  }
+
+  &:hover {
+    color: colors(primary, light);
+    cursor: pointer;
+    text-decoration: underline;
+  }
 }
 
 small {
@@ -45,7 +55,7 @@ em {
 
 h1 {
   @include font($font-stack-system, '4', bold);
-  color: colors(primary, base);
+  color: colors(primary, dark);
 }
 
 h2 {
@@ -54,7 +64,7 @@ h2 {
 
 h3 {
   @include font($font-stack-system, '2', bold);
-  color: colors(primary, base);
+  color: colors(primary, dark);
 }
 
 h4 {

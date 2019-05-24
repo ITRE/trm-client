@@ -23,15 +23,20 @@ button,
   background-color: colors(primary, base);
   border: 2px solid colors(primary, base);
   border-radius: 5px;
-  color: colors(text, inverse);
+  color: colors(text, ink);
   display: inline-block;
   margin: 20px 10px;
   padding: 10px 20px;
   text-decoration: none;
 
+  &.cancel {
+    background-color: colors(secondary, base);
+    border: 2px solid colors(secondary, base);
+  }
+
   &:hover {
     background-color: $background;
-    color: colors(primary, base);
+    color: colors(primary, dark);
     cursor: pointer;
     text-decoration: underline;
   }
@@ -40,12 +45,22 @@ button,
     margin-left: 0;
   }
 
-  &.cancel {
-    background-color: colors(secondary, base);
-    border: 2px solid colors(secondary, base);
+  &.cancel:hover {
+    color: colors(secondary, dark);
+  }
+
+  &.link {
+    background-color: transparent;
+    border: none;
+    color: colors(primary, dark);
+    padding: 0;
+    text-decoration: none;
 
     &:hover {
-      color: colors(secondary, base);
+      background-color: transparent;
+      color: colors(primary, base);
+      cursor: pointer;
+      text-decoration: underline;
     }
   }
 }

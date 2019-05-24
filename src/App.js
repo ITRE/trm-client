@@ -17,7 +17,7 @@ class App extends Component {
           <a className="logo" href="/">
             <img src={logo} alt="Spinning Logo" />
           </a>
-          <a className="App-link" href="/login">
+          <a className="dark" href="/login">
             Login
           </a>
         </header>

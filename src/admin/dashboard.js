@@ -44,7 +44,7 @@ class Dashboard extends Component {
   render() {
     console.log(this.state)
     return (
-      <main>
+      <main className="wrapper">
         <section>
           <h1>Welcome {this.state.user.name}</h1>
         </section>

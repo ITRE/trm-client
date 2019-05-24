@@ -1,5 +1,5 @@
 const config = {
-  api: 'localhost:8000'
+  api: 'trm-api.herokuapp.com'
 }
 
 export default config

@@ -107,7 +107,7 @@ class Login extends Component {
       <main className="wrapper">
         {this.state.login && this.state.login}
         <section className="back_holder">
-          <button className="back" onClick={()=>{this.props.history.goBack()}}>Back</button>
+          <button className="link" onClick={()=>{this.props.history.goBack()}}>Back</button>
         </section>
         <section>
           <h1>Login</h1>
@@ -130,7 +130,7 @@ class Login extends Component {
                 </label>
 
                 <label htmlFor="password">
-                  Password <span className="small">Must contain at least 8 characters, one capital letter, and one number</span>
+                  Password <small>Must contain at least 8 characters, one capital letter, and one number</small>
                 <Field name="password" type="password" />
                   {errors.password && touched.password ? (
                     <span className="error">{errors.password}</span>
@@ -138,10 +138,11 @@ class Login extends Component {
                 </label>
 
                 <button type="submit">Submit</button>
-                <button className="cancel" type="button" onClick={this.recover}>Forgot Password</button>
+                <button className="cancel" type="button" onClick={this.register}>New User</button>
               </Form>
             )}
           </Formik>
+          <button className="link" onClick={this.recover}>Forgot Password</button>
         </section>
       </main>
     );
