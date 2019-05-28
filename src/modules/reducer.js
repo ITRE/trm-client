@@ -16,25 +16,24 @@ const todoReducer = (state = defaultState, action) => {
   console.log(action);
   switch (action.type) {
     case ACTIONS.Types.FETCH_TICKETS: {
-
-
       return state;
     }
 
     case ACTIONS.Types.LOGIN: {
-      return Object.assign({}, state, {
+      return {...state,
         user: action.payload.user,
         tickets: action.payload.tickets,
         loggedIn: true
-      });
+      };
     }
 
     case ACTIONS.Types.LOGOUT: {
-      return Object.assign({}, state, {
+      localStorage.removeItem('access token');
+      return {...state,
         user: {},
         tickets: [],
         loggedIn: false
-      });
+      };
     }
 
     case ACTIONS.Types.ERROR: {

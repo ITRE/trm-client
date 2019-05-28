@@ -12,6 +12,7 @@ import App from './App';
 const solidState = loadState()
 
 const store = configureStore(solidState);
+
 store.subscribe(throttle(() => {
   saveState(store.getState())
 }, 1000))

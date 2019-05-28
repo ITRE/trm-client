@@ -34,6 +34,10 @@ a {
     color: colors(primary, base);
   }
 
+  &.button {
+    color: inherit;
+  }
+
   &:hover {
     color: colors(primary, light);
     cursor: pointer;
