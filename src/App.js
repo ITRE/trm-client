@@ -2,6 +2,7 @@ import React from 'react';
 import { BrowserRouter, Route, Switch } from "react-router-dom";
 import { connect } from "react-redux";
 import ACTIONS from "./modules/action";
+//import Swal from 'sweetalert2'
 
 import logo from './assets/logo.svg';
 
@@ -11,15 +12,21 @@ import Login from './login.js';
 import Recover from './recover.js';
 import Admin from './admin.js';
 
+import Loader from './partial/loader.js';
+import Error from './partial/error.js';
+
 const mapStateToProps = state => ({
-  loggedIn: state.loggedIn
+  loggedIn: state.loggedIn,
+  error: state.error,
+  isFetching: state.isFetching
+
 });
 
 const mapDispatchToProps = dispatch => ({
   logOut: () => dispatch(ACTIONS.logOut())
 });
 
-const App = (props) => (
+const App = (props) => {console.log(props); return(
   <div className="app">
     <header className="header">
 
@@ -45,6 +52,8 @@ const App = (props) => (
         </a>
       }
     </header>
+    {props.error && <Error errorTitle="Error" errorMessage={props.error.response.data.msg} />}
+    {props.isFetching && <Loader />}
     <BrowserRouter>
       <Switch>
         <Route path="/admin" component={Admin} />
@@ -58,7 +67,7 @@ const App = (props) => (
       <p>Copyright Info Stuff</p>
     </footer>
   </div>
-)
+)}
 
 export default connect(
   mapStateToProps,

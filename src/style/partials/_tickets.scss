@@ -1,0 +1,20 @@
+.Normal {
+  background-color: colors(primary, base);
+
+  h3 {
+    color: colors(text, base);
+  }
+}
+
+.New {
+  border: 10px solid colors(secondary, base);
+}
+
+.ticket {
+  margin: 10px auto;
+
+  header,
+  section {
+    padding: 15px;
+  }
+}

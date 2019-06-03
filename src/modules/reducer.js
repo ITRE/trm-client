@@ -1,3 +1,4 @@
+
 import ACTIONS from "./action";
 /*
 const Types = {
@@ -9,21 +10,36 @@ const Types = {
 const defaultState = {
   tickets: [],
   user: {},
-  loggedIn: false
+  loggedIn: false,
+  error: '',
+  isFetching: false
 };
 
 const todoReducer = (state = defaultState, action) => {
   console.log(action);
   switch (action.type) {
+    case ACTIONS.Types.ATTEMPT_LOGIN: {
+      return {...state,
+        isFetching: true
+      };
+    }
     case ACTIONS.Types.FETCH_TICKETS: {
       return state;
     }
 
-    case ACTIONS.Types.LOGIN: {
+    case ACTIONS.Types.LOGIN_SUCCESS: {
       return {...state,
         user: action.payload.user,
         tickets: action.payload.tickets,
-        loggedIn: true
+        loggedIn: true,
+        isFetching: false
+      };
+    }
+
+    case ACTIONS.Types.LOGIN_FAILURE: {
+      return {...state,
+        error: action.payload,
+        isFetching: false
       };
     }
 
@@ -37,7 +53,16 @@ const todoReducer = (state = defaultState, action) => {
     }
 
     case ACTIONS.Types.ERROR: {
-      return state;
+      return {...state,
+        error: action.payload,
+        isFetching: false
+      };
+    }
+
+    case ACTIONS.Types.CLEAR_ERROR: {
+      return {...state,
+        error: ''
+      };
     }
 
     default:

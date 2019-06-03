@@ -1,0 +1,58 @@
+.loader {
+  align-items: center;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  flex-flow: row wrap;
+  height: 100%;
+  position: absolute;
+  width: 100%;
+
+  .icon {
+    margin: auto;
+    width: 200px;
+
+    img {
+      animation: logo-spin infinite 10s linear;
+    }
+  }
+
+  p {
+    @include font($font-stack-system, '4', bold);
+    color: colors(text, inverse);
+    margin-top: 100px;
+    position: absolute;
+    text-align: center;
+    width: 100%;
+  }
+}
+
+.error {
+  align-items: center;
+  display: flex;
+  flex-flow: row wrap;
+  height: 100%;
+  position: absolute;
+  width: 100%;
+
+  .card {
+    background-color: colors(grey, lighter);
+    box-shadow: 4px 4px 4px colors(grey, light);
+    margin: auto;
+    padding: 20px;
+    text-align: center;
+    width: 300px;
+  }
+
+  .icon {
+    margin: auto;
+    width: 100px;
+  }
+
+  h2 {
+    margin-bottom: 10px;
+  }
+
+  p {
+    margin-bottom: 0px;
+  }
+}

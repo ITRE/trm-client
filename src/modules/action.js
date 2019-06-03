@@ -6,7 +6,11 @@ const Types = {
   FETCH_TICKETS: "FETCH_TICKETS",
   LOGIN: "Login",
   LOGOUT: "LOGOUT",
-  ERROR: "ERROR"
+  ERROR: "ERROR",
+  ATTEMPT_LOGIN: "ATTEMPT_LOGIN",
+  LOGIN_SUCCESS: "LOGIN_SUCCESS",
+  LOGIN_FAILURE: "LOGIN_FAILURE",
+  CLEAR_ERROR: "CLEAR_ERROR"
 };
 
 // actions
@@ -19,11 +23,41 @@ const logOut = () => ({
   type: Types.LOGOUT
 });
 
-const loginSuccessful = payload => ({
-  type: Types.LOGIN,
-  payload: payload
+const clearError = () => ({
+  type: Types.CLEAR_ERROR
 });
 
+const login = (credentials) => (dispatch, getState) => {
+
+  dispatch({
+    type: Types.ATTEMPT_LOGIN,
+    payload: credentials
+  })
+
+  return axios(`http://${config.api}/login`, {
+    method: "post",
+    data: {username: credentials.username, password: credentials.password},
+    withCredentials: 'include'
+  })
+  .then(res => {
+    console.log(res.data)
+    dispatch({
+      type: Types.LOGIN_SUCCESS,
+      payload: {
+        user: res.data.user,
+        tickets: [...res.data.data]
+      }
+    })
+  }, error => {
+    dispatch({
+      type: Types.LOGIN_FAILURE,
+      payload: error
+    })
+  })
+}
+
+
+/*
 function login(credentials) {
   return function(dispatch) {
     return axios(`http://${config.api}/login`, {
@@ -42,12 +76,14 @@ function login(credentials) {
     .then ( data => {
       return dispatch(loginSuccessful(data))
     })
+    .catch(error => dispatch(loginFailure(error)))
   }
 }
-
+*/
 export default {
   fetchTickets,
   login,
   logOut,
+  clearError,
   Types
 };

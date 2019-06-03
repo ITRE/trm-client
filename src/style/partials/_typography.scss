@@ -60,15 +60,18 @@ em {
 h1 {
   @include font($font-stack-system, '4', bold);
   color: colors(primary, dark);
+  margin-bottom: space-after(1, 1);
 }
 
 h2 {
   @include font($font-stack-system, '3', normal);
+  margin-bottom: space-after(1, 1);
 }
 
 h3 {
   @include font($font-stack-system, '2', bold);
   color: colors(primary, dark);
+  margin-bottom: space-after(1, 1);
 }
 
 h4 {
