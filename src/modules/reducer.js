@@ -18,7 +18,8 @@ const defaultState = {
 const todoReducer = (state = defaultState, action) => {
   console.log(action);
   switch (action.type) {
-    case ACTIONS.Types.ATTEMPT_LOGIN: {
+    case ACTIONS.Types.ATTEMPT_LOGIN:
+    case ACTIONS.Types.ATTEMPT_SEND: {
       return {...state,
         isFetching: true
       };
@@ -26,7 +27,6 @@ const todoReducer = (state = defaultState, action) => {
     case ACTIONS.Types.FETCH_TICKETS: {
       return state;
     }
-
     case ACTIONS.Types.LOGIN_SUCCESS: {
       return {...state,
         user: action.payload.user,
@@ -35,14 +35,12 @@ const todoReducer = (state = defaultState, action) => {
         isFetching: false
       };
     }
-
-    case ACTIONS.Types.LOGIN_FAILURE: {
+    case ACTIONS.Types.SEND_SUCCESS: {
       return {...state,
-        error: action.payload,
+        tickets: action.payload.tickets,
         isFetching: false
       };
     }
-
     case ACTIONS.Types.LOGOUT: {
       localStorage.removeItem('access token');
       return {...state,
@@ -51,14 +49,12 @@ const todoReducer = (state = defaultState, action) => {
         loggedIn: false
       };
     }
-
     case ACTIONS.Types.ERROR: {
       return {...state,
         error: action.payload,
         isFetching: false
       };
     }
-
     case ACTIONS.Types.CLEAR_ERROR: {
       return {...state,
         error: ''

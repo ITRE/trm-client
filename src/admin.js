@@ -4,6 +4,7 @@ import { connect } from "react-redux";
 import Home from './home.js';
 import Dashboard from './admin/dashboard.js';
 import Test from './admin/test.js';
+import Edit from './admin/edit.js';
 
 const mapStateToProps = state => ({
   loggedIn: state.loggedIn
@@ -16,6 +17,7 @@ const Admin = (props) => (
       <Switch>
         <Route exact path="/" component={Home} />
         <Route path="/admin/test" component={Test} />
+        <Route path="/admin/edit" component={Edit} />
         <Route path="/admin" component={Dashboard} />
       </Switch>
     </BrowserRouter>

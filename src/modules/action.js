@@ -4,12 +4,12 @@ import config from '../config'
 
 const Types = {
   FETCH_TICKETS: "FETCH_TICKETS",
-  LOGIN: "Login",
   LOGOUT: "LOGOUT",
   ERROR: "ERROR",
   ATTEMPT_LOGIN: "ATTEMPT_LOGIN",
   LOGIN_SUCCESS: "LOGIN_SUCCESS",
-  LOGIN_FAILURE: "LOGIN_FAILURE",
+  ATTEMPT_SEND: "ATTEMPT_SEND",
+  SEND_SUCCESS: "SEND_SUCCESS",
   CLEAR_ERROR: "CLEAR_ERROR"
 };
 
@@ -28,7 +28,6 @@ const clearError = () => ({
 });
 
 const login = (credentials) => (dispatch, getState) => {
-
   dispatch({
     type: Types.ATTEMPT_LOGIN,
     payload: credentials
@@ -50,40 +49,47 @@ const login = (credentials) => (dispatch, getState) => {
     })
   }, error => {
     dispatch({
-      type: Types.LOGIN_FAILURE,
+      type: Types.Error,
       payload: error
     })
   })
 }
 
+const sendEmail = (ticket, log, email) => (dispatch, getState) => {
+  dispatch({
+    type: Types.ATTEMPT_SEND
+  })
 
-/*
-function login(credentials) {
-  return function(dispatch) {
-    return axios(`http://${config.api}/login`, {
-      method: "post",
-      data: {username: credentials.username, password: credentials.password},
-      withCredentials: 'include'
-    })
-    .then( res => {
-      console.log('Login Successful')
-      localStorage.setItem('access token', res.data.token)
-      return ({
-        user: res.data.user,
+  return axios(`http://${config.api}/tickets/${ticket._id}`, {
+    method: "put",
+    data: {
+      ticket: ticket,
+      log: log,
+      email: email
+    },
+    withCredentials: 'include'
+  })
+  .then(res => {
+    console.log(res.data)
+    dispatch({
+      type: Types.SEND_SUCCESS,
+      payload: {
         tickets: res.data.data
-      })
-    }, error => console.log(error))
-    .then ( data => {
-      return dispatch(loginSuccessful(data))
+      }
     })
-    .catch(error => dispatch(loginFailure(error)))
-  }
+  }, error => {
+    dispatch({
+      type: Types.ERROR,
+      payload: error
+    })
+  })
 }
-*/
+
 export default {
   fetchTickets,
   login,
   logOut,
+  sendEmail,
   clearError,
   Types
 };
