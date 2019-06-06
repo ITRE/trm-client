@@ -8,6 +8,8 @@ const Types = {
   ERROR: "ERROR",
   ATTEMPT_LOGIN: "ATTEMPT_LOGIN",
   LOGIN_SUCCESS: "LOGIN_SUCCESS",
+  ATTEMPT_REQUEST: "ATTEMPT_REQUEST",
+  REQUEST_SUCCESS: "REQUEST_SUCCESS",
   ATTEMPT_SEND: "ATTEMPT_SEND",
   SEND_SUCCESS: "SEND_SUCCESS",
   CLEAR_ERROR: "CLEAR_ERROR"
@@ -27,7 +29,7 @@ const clearError = () => ({
   type: Types.CLEAR_ERROR
 });
 
-const login = (credentials) => (dispatch, getState) => {
+const login = (credentials) => (dispatch) => {
   dispatch({
     type: Types.ATTEMPT_LOGIN,
     payload: credentials
@@ -37,8 +39,7 @@ const login = (credentials) => (dispatch, getState) => {
     method: "post",
     data: {username: credentials.username, password: credentials.password},
     withCredentials: 'include'
-  })
-  .then(res => {
+  }).then(res => {
     console.log(res.data)
     dispatch({
       type: Types.LOGIN_SUCCESS,
@@ -47,40 +48,75 @@ const login = (credentials) => (dispatch, getState) => {
         tickets: [...res.data.data]
       }
     })
-  }, error => {
+  }).catch(error => {
     dispatch({
-      type: Types.Error,
+      type: Types.ERROR,
       payload: error
     })
   })
 }
 
-const sendEmail = (ticket, log, email) => (dispatch, getState) => {
-  dispatch({
-    type: Types.ATTEMPT_SEND
-  })
-
-  return axios(`http://${config.api}/tickets/${ticket._id}`, {
-    method: "put",
-    data: {
-      ticket: ticket,
-      log: log,
-      email: email
-    },
-    withCredentials: 'include'
-  })
-  .then(res => {
-    console.log(res.data)
+const sendEmail = (ticket, log, email) => (dispatch) => {
+  return new Promise((resolve, reject) => {
     dispatch({
-      type: Types.SEND_SUCCESS,
-      payload: {
-        tickets: res.data.data
-      }
+      type: Types.ATTEMPT_SEND
     })
-  }, error => {
+
+    axios(`http://${config.api}/tickets/${ticket._id}`, {
+      method: "put",
+      data: {
+        ticket: ticket,
+        log: log,
+        email: email
+      },
+      withCredentials: 'include'
+    })
+    .then(res => {
+      dispatch({
+        type: Types.SEND_SUCCESS,
+        payload: {
+          tickets: res.data.data
+        }
+      })
+      resolve(res.data.data)
+    })
+    .catch(error => {
+      dispatch({
+        type: Types.ERROR,
+        payload: error
+      })
+      reject(error)
+    })
+  })
+}
+
+const requestDownload = (ticket, kind) => (dispatch) => {
+  return new Promise((resolve, reject) => {
     dispatch({
-      type: Types.ERROR,
-      payload: error
+      type: Types.ATTEMPT_REQUEST
+    })
+
+    axios(`http://${config.api}/messages`, {
+      method: "post",
+      data: {
+        ticket: ticket,
+        kind: kind,
+      },
+      withCredentials: 'include'
+    })
+    .then(res => {
+      dispatch({
+        type: Types.REQUEST_SUCCESS,
+        payload: res.data.data[0]
+      })
+      resolve('Success')
+    })
+    .catch(error => {
+      dispatch({
+        type: Types.ERROR,
+        payload: error
+      })
+      reject(error)
     })
   })
 }
@@ -90,6 +126,7 @@ export default {
   login,
   logOut,
   sendEmail,
+  requestDownload,
   clearError,
   Types
 };

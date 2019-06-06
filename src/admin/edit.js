@@ -2,15 +2,18 @@ import React, { Component } from 'react';
 import ACTIONS from "../modules/action";
 import { Formik, Form, Field } from 'formik';
 import { connect } from "react-redux";
-import { Link } from 'react-router-dom'
+import { Link, Redirect } from 'react-router-dom'
 import moment from 'moment'
+import Swal from 'sweetalert2'
 
 import Log from '../partial/log.js';
+//import Popup from '../partial/popup.js';
 
 const mapStateToProps = state => ({
   user: state.user,
   tickets: state.tickets
 });
+
 
 class Edit extends Component {
   constructor(props) {
@@ -19,9 +22,13 @@ class Edit extends Component {
     this.state = {
       ticket: {},
       note:'',
-      redirect:false
+      redirect:false,
+      test:false
     }
 		this.submit = this.submit.bind(this)
+  }
+  test() {
+
   }
 
   componentDidMount() {
@@ -35,13 +42,13 @@ class Edit extends Component {
       priority: values.priority,
       status: values.status,
       thread_id: values.thread_id,
-      subject: values.subject
+      subject: values.subject,
     }
     let log, email
     if (values.note) {
       log = {
         type: 'Admin Response',
-        date: Date.now(),
+        date: moment().format(),
         message_id: '',
         staff: this.props.user.email,
         note: values.note
@@ -57,13 +64,26 @@ class Edit extends Component {
       }
       email = false
     }
-    this.props.sendEmail(ticket, log, email)
+    this.props.sendEmail(ticket, log, email, this.props.history).then(res => {
+      Swal.fire({
+        title: 'Submitted!',
+        type: 'success',
+        text: 'Your edit has been saved.',
+      }).then(res=>{
+        if(res) {
+          this.setState({
+            redirect: <Redirect to={{pathname: '/admin'}}/>
+          })
+        }
+      })
+    })
   }
 
   render() {
     console.log(this.props)
     return (
       <section>
+        {this.state.redirect}
       <Formik
         initialValues={{
           priority: this.props.location.state.ticket.priority,
@@ -108,7 +128,15 @@ class Edit extends Component {
               </label>
             </section>
             <section className="email">
-              {this.state.ticket.log && this.state.ticket.log.map(entry => <Log date={entry.date} message={entry.note} />)}
+
+              {this.state.ticket.log && this.state.ticket.log.map(entry => <Log
+                key={entry._id}
+                date={moment(entry.date).format('MMMM Do YYYY, h:mm a')}
+                type ={entry.type}
+                staff={entry.staff}
+                message={entry.note}
+              />)}
+
               <label htmlFor="user">
                 To:
                 <Field name="user" disabled="disabled" />

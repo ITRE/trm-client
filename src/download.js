@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import { Redirect } from 'react-router-dom'
-import { Formik, Form, Field } from 'formik';
-import * as Yup from 'yup';
-import axios from 'axios'
+import { connect } from "react-redux"
+import { Formik, Form, Field } from 'formik'
+import * as Yup from 'yup'
 import Swal from 'sweetalert2'
-import config from './config'
+import ACTIONS from "./modules/action";
 
 class Download extends Component {
   constructor(props) {
@@ -22,48 +22,38 @@ class Download extends Component {
   }
 
   submit(values) {
-    console.log(values)
-    axios(`http://${config.api}/messages`, {
-      method: "post",
-      data: {
-        ticket: {
-          user: values.email,
-          staff: '',
-          thread_id: '',
-          priority: 'Normal',
-          status: 'New',
-          kind: 'Download',
-          info: '',
-          subject: 'Request for TRM'
-        },
-        kind: {
-          name: values.name,
-          email: values.email,
-          organization: values.organization,
-          title: values.title,
-          use: values.use
-        }
-      },
-      withCredentials: 'include'
-    })
-    .then(res => {
-      Swal({
-        title: 'Submitted!',
-        type: 'success',
-        text: 'Your request has been submitted! We\'ll contact you as soon as we are able.',
-      }).then(
-        this.setState({
-          redirect: <Redirect to={{pathname: '/'}}/>
+    if (values) {
+      const ticket= {
+        user: values.email,
+        staff: '',
+        thread_id: '',
+        priority: 'Normal',
+        status: 'New',
+        kind: 'Download',
+        info: '',
+        subject: 'Request for TRM'
+      }
+      const kind = {
+        name: values.name,
+        email: values.email,
+        organization: values.organization,
+        title: values.title,
+        use: values.use
+      }
+      this.props.requestDownload(ticket, kind).then(res => {
+        Swal.fire({
+          title: 'Submitted!',
+          type: 'success',
+          text: 'Your request has been submitted! We\'ll contact you as soon as we are able.',
+        }).then(res=>{
+          if(res) {
+            this.setState({
+              redirect: <Redirect to={{pathname: '/'}}/>
+            })
+          }
         })
-      )
-    })
-    .catch(error => {
-      Swal({
-        title: error.response.status+' Error',
-        type: 'error',
-        text:error.response.data.msg,
-      })
-    })
+      }).catch(err=>console.log(err))
+    }
   }
 
   render() {
@@ -149,4 +139,7 @@ class Download extends Component {
   }
 }
 
-export default Download;
+export default connect(
+  null,
+  {requestDownload: ACTIONS.requestDownload}
+)(Download);

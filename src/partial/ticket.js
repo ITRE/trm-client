@@ -2,20 +2,6 @@ import React from 'react';
 import moment from 'moment'
 import { Link } from 'react-router-dom'
 
-/*
-added: "2019-05-24T18:07:14.118Z"
-info: {_id: "5ce832d2fa38a5001743631c", __v: 0}
-kind: "Download"
-log: []
-priority: "Normal"
-staff: ""
-status: "New"
-subject: "Request for TRM"
-thread_id: "16aeb06848f04dff"
-user: "p.peabody@fake.com"
-__v: 0
-_id: "5ce832d2fa38a5001743631d"
-*/
 const Ticket = (props) => (
   <div className={props.status + ' ticket'}>
     <header className={props.priority}>
@@ -26,7 +12,6 @@ const Ticket = (props) => (
       <p><strong>User: </strong>{props.user}</p>
       <p><strong>Staff: </strong>{props.staff ? props.staff : 'Not Assigned'}</p>
       <p><strong>Kind: </strong>{props.kind}</p>
-      <button>Edit</button>
         <Link
           className="button"
           to={{
@@ -34,7 +19,13 @@ const Ticket = (props) => (
             state: { ticket: props }
           }}
         >Edit </Link>
-      <button className="cancel">Close</button>
+        <Link
+          className="button cancel"
+          to={{
+            pathname: "/admin/close",
+            state: { ticket: props }
+          }}
+        >Close </Link>
     </section>
   </div>
 )
