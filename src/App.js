@@ -52,7 +52,7 @@ const App = (props) => {console.log(props); return(
         </a>
       }
     </header>
-    {props.error && <Error errorTitle="Error" errorMessage={props.error.response.data.msg} />}
+    {props.error && <Error errorTitle="Error" errorMessage={props.error} />}
     {props.isFetching && <Loader />}
     <BrowserRouter>
       <Switch>

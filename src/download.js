@@ -40,6 +40,7 @@ class Download extends Component {
         title: values.title,
         use: values.use
       }
+      console.log(kind)
       this.props.requestDownload(ticket, kind).then(res => {
         Swal.fire({
           title: 'Submitted!',

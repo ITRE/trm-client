@@ -20,7 +20,8 @@ const todoReducer = (state = defaultState, action) => {
   switch (action.type) {
     case ACTIONS.Types.ATTEMPT_LOGIN:
     case ACTIONS.Types.ATTEMPT_SEND:
-    case ACTIONS.Types.ATTEMPT_REQUEST:  {
+    case ACTIONS.Types.ATTEMPT_REQUEST:
+    case ACTIONS.Types.ATTEMPT_APPROVE:  {
       return {...state,
         isFetching: true
       };
@@ -47,11 +48,19 @@ const todoReducer = (state = defaultState, action) => {
         isFetching: false
       };
     }
-    case ACTIONS.Types.REQUEST_SUCCESS: {
+    case ACTIONS.Types.APPROVE_SUCCESS: {
+      const index = state.tickets.findIndex((ticket) => ticket._id === action.payload._id)
       let newTickets = [...state.tickets]
-      newTickets.push(action.payload)
+      console.log(newTickets[index])
+      newTickets[index] = Object.assign(newTickets[index], action.payload)
+      console.log(newTickets[index])
       return {...state,
         tickets: newTickets,
+        isFetching: false
+      };
+    }
+    case ACTIONS.Types.REQUEST_SUCCESS: {
+      return {...state,
         isFetching: false
       };
     }

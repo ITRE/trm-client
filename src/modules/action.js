@@ -4,15 +4,17 @@ import config from '../config'
 
 const Types = {
   FETCH_TICKETS: "FETCH_TICKETS",
-  LOGOUT: "LOGOUT",
-  ERROR: "ERROR",
   ATTEMPT_LOGIN: "ATTEMPT_LOGIN",
   LOGIN_SUCCESS: "LOGIN_SUCCESS",
   ATTEMPT_REQUEST: "ATTEMPT_REQUEST",
   REQUEST_SUCCESS: "REQUEST_SUCCESS",
   ATTEMPT_SEND: "ATTEMPT_SEND",
   SEND_SUCCESS: "SEND_SUCCESS",
-  CLEAR_ERROR: "CLEAR_ERROR"
+  ATTEMPT_APPROVE: "ATTEMPT_APPROVE",
+  APPROVE_SUCCESS: "APPROVE_SUCCESS",
+  CLEAR_ERROR: "CLEAR_ERROR",
+  ERROR: "ERROR",
+  LOGOUT: "LOGOUT"
 };
 
 // actions
@@ -105,11 +107,44 @@ const requestDownload = (ticket, kind) => (dispatch) => {
       withCredentials: 'include'
     })
     .then(res => {
+      console.log(res)
       dispatch({
-        type: Types.REQUEST_SUCCESS,
-        payload: res.data.data[0]
+        type: Types.REQUEST_SUCCESS
       })
       resolve('Success')
+    })
+    .catch(error => {
+      dispatch({
+        type: Types.ERROR,
+        payload: error
+      })
+      reject(error)
+    })
+  })
+}
+
+const approveDownload = (ticket, kind, log) => (dispatch) => {
+  return new Promise((resolve, reject) => {
+    dispatch({
+      type: Types.ATTEMPT_APPROVE
+    })
+
+    axios(`http://${config.api}/messages/${ticket._id}`, {
+      method: "put",
+      data: {
+        ticket: ticket,
+        kind: kind,
+        log: log
+      },
+      withCredentials: 'include'
+    })
+    .then(res => {
+      console.log(res)
+      dispatch({
+        type: Types.APPROVE_SUCCESS,
+        payload: res.data.data
+      })
+      resolve(res.data.data)
     })
     .catch(error => {
       dispatch({
@@ -127,6 +162,7 @@ export default {
   logOut,
   sendEmail,
   requestDownload,
+  approveDownload,
   clearError,
   Types
 };
