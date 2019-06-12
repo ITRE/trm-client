@@ -1,10 +1,13 @@
-import React from 'react';
+import React from 'react'
 import moment from 'moment'
 import { Link } from 'react-router-dom'
 
 const Ticket = (props) => {
   function submit() {
     props.submit(props._id)
+  }
+  function close() {
+    props.close(props._id)
   }
 
   return (
@@ -36,13 +39,7 @@ const Ticket = (props) => {
               } }
             }}
           >Edit </Link>
-          <Link
-            className="button cancel"
-            to={{
-              pathname: "/admin/close",
-              state: { ticket: props }
-            }}
-          >Close </Link>
+        <button className="button cancel" onClick={close}>Close</button>
         {props.kind === 'Download' &&
           <button className="button" onClick={submit}>Approve</button>
         }

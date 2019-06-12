@@ -12,6 +12,8 @@ const Types = {
   SEND_SUCCESS: "SEND_SUCCESS",
   ATTEMPT_APPROVE: "ATTEMPT_APPROVE",
   APPROVE_SUCCESS: "APPROVE_SUCCESS",
+  ATTEMPT_NEW_USER: "ATTEMPT_NEW_USER",
+  NEW_USER_SUCCESS: "NEW_USER_SUCCESS",
   CLEAR_ERROR: "CLEAR_ERROR",
   ERROR: "ERROR",
   LOGOUT: "LOGOUT"
@@ -45,6 +47,39 @@ const login = (credentials) => (dispatch) => {
     console.log(res.data)
     dispatch({
       type: Types.LOGIN_SUCCESS,
+      payload: {
+        user: res.data.user,
+        tickets: [...res.data.data]
+      }
+    })
+  }).catch(error => {
+    dispatch({
+      type: Types.ERROR,
+      payload: error
+    })
+  })
+}
+
+const newUser = (info) => (dispatch) => {
+  dispatch({
+    type: Types.ATTEMPT_NEW_USER,
+    payload: info
+  })
+
+  return axios(`http://${config.api}/admin`, {
+    method: "post",
+    data: {
+      username: info.username,
+      password: info.password,
+      name: info.name,
+      email: info.email,
+      role: info.role
+    },
+    withCredentials: 'include'
+  }).then(res => {
+    console.log(res.data)
+    dispatch({
+      type: Types.NEW_USER_SUCCESS,
       payload: {
         user: res.data.user,
         tickets: [...res.data.data]
@@ -160,6 +195,7 @@ export default {
   fetchTickets,
   login,
   logOut,
+  newUser,
   sendEmail,
   requestDownload,
   approveDownload,

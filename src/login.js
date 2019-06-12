@@ -9,7 +9,8 @@ import ACTIONS from "./modules/action";
 import { connect } from "react-redux";
 
 const mapStateToProps = state => ({
-  loggedIn: state.loggedIn
+  loggedIn: state.loggedIn,
+  user: state.user
 });
 
 const mapDispatchToProps = dispatch => ({
@@ -123,7 +124,7 @@ class Login extends Component {
                 </label>
 
                 <button type="submit">Submit</button>
-                <button className="cancel" type="button" onClick={this.register}>New User</button>
+                <a className="button cancel" type="button" href="/user">New User</a>
               </Form>
             )}
           </Formik>

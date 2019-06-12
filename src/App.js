@@ -1,23 +1,25 @@
-import React from 'react';
-import { BrowserRouter, Route, Switch } from "react-router-dom";
-import { connect } from "react-redux";
-import ACTIONS from "./modules/action";
+import React from 'react'
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom"
+import { connect } from "react-redux"
+import ACTIONS from "./modules/action"
 //import Swal from 'sweetalert2'
 
-import logo from './assets/logo.svg';
+import logo from './assets/logo.svg'
 
-import Home from './home.js';
-import Download from './download.js';
-import Login from './login.js';
-import Recover from './recover.js';
-import Admin from './admin.js';
+import Home from './home.js'
+import Download from './download.js'
+import Login from './login.js'
+import User from './user.js'
+import Recover from './recover.js'
+import Admin from './admin.js'
 
-import Loader from './partial/loader.js';
-import Error from './partial/error.js';
+import Loader from './partial/loader.js'
+import Error from './partial/error.js'
 
 const mapStateToProps = state => ({
   loggedIn: state.loggedIn,
   error: state.error,
+  user: state.user,
   isFetching: state.isFetching
 
 });
@@ -42,9 +44,17 @@ const App = (props) => {console.log(props); return(
       }
 
       {props.loggedIn &&
-        <button className="link dark submenu" onClick={props.logOut}>
-          Log Out
-        </button>
+        <nav className="account">
+          {props.user.name}
+          <div className="submenu">
+            <a href="/admin/account">
+              Account
+            </a>
+            <button className="link dark" onClick={props.logOut}>
+              Log Out
+            </button>
+          </div>
+        </nav>
       }
       {!props.loggedIn &&
         <a className="dark" href="/login">
@@ -54,15 +64,16 @@ const App = (props) => {console.log(props); return(
     </header>
     {props.error && <Error errorTitle="Error" errorMessage={props.error} />}
     {props.isFetching && <Loader />}
-    <BrowserRouter>
+    <Router>
       <Switch>
         <Route path="/admin" component={Admin} />
         <Route path="/download" component={Download} />
         <Route path="/login/:user/:token" component={Recover} />
+        <Route path="/user" component={User} />
         <Route path="/login" component={Login} />
         <Route path="/" component={Home} />
       </Switch>
-    </BrowserRouter>
+    </Router>
     <footer>
       <p>Copyright Info Stuff</p>
     </footer>

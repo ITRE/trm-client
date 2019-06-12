@@ -2,6 +2,7 @@ import React from 'react'
 import moment from 'moment'
 import { connect } from "react-redux"
 import ACTIONS from "../modules/action"
+import Swal from 'sweetalert2'
 
 import Ticket from '../partial/ticket.js'
 
@@ -45,6 +46,27 @@ const Dashboard = (props) => {
     }
   }
 
+  function close(id) {
+      let ticket = props.tickets.find((ticket) => ticket._id === id)
+      ticket.status= "Closed"
+      let log = {
+        type: 'Admin Close',
+        date: moment().format(),
+        message_id: '',
+        staff: props.user.email,
+        note: 'Ticket was marked closed.'
+      }
+      const email = false
+      props.sendEmail(ticket, log, email, props.history).then(res => {
+        Swal.fire({
+          title: 'Closed',
+          type: 'success',
+          text: 'This ticket has been marked as Closed.',
+        }).then(res=>{
+
+        }).catch(err=>console.log(err))
+      })
+    }
   return (
   <section>
     <header>
@@ -61,14 +83,11 @@ const Dashboard = (props) => {
             const status = {'New':0, 'Seen':1, 'In Progress':2, 'On Hold':3, 'Awaiting Reply':4, 'Completed':6, 'Closed':7, 'Reopened':5}
             if (a.priority === b.priority) {
               if (a.status === b.status) {
-                console.log('local',a.added.localeCompare(b.added))
                 return a.added.localeCompare(b.added)
               } else {
-                console.log('status',status[a.status] - status[b.status])
                 return status[a.status] - status[b.status]
               }
             } else {
-              console.log('priority',priority[a.priority] - priority[b.priority])
               return priority[a.priority] - priority[b.priority]
             }
           })
@@ -86,6 +105,7 @@ const Dashboard = (props) => {
             info={ticket.info}
             log={ticket.log}
             submit={submit}
+            close={close}
           />)
         }
     </section>
@@ -94,5 +114,6 @@ const Dashboard = (props) => {
 
 export default connect(
   mapStateToProps,
-  {approveDownload: ACTIONS.approveDownload}
+  {approveDownload: ACTIONS.approveDownload,
+  sendEmail: ACTIONS.sendEmail}
 )(Dashboard);
