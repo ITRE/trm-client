@@ -20,6 +20,7 @@ const Admin = (props) => (
       <Switch>
         <Route exact path="/" component={Home} />
         <Route path="/admin/edit" component={Edit} />
+        <Route path="/admin/account" component={Account} />
         {props.user.role === 'Admin' && <Route exact path="/admin" component={Dashboard} />}
         {props.user.role === 'Shareholder' && <Route exact path="/admin" component={ShareDashboard} />}
         <Route path="/admin" component={Dashboard} />

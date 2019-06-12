@@ -9,6 +9,7 @@ const Types = {
 
 const defaultState = {
   tickets: [],
+  users: [],
   user: {},
   loggedIn: false,
   error: '',
@@ -35,6 +36,7 @@ const todoReducer = (state = defaultState, action) => {
       return {...state,
         user: action.payload.user,
         tickets: action.payload.tickets,
+        users: action.payload.users,
         loggedIn: true,
         isFetching: false
       };

@@ -49,6 +49,7 @@ const login = (credentials) => (dispatch) => {
       type: Types.LOGIN_SUCCESS,
       payload: {
         user: res.data.user,
+        users: [...res.data.users],
         tickets: [...res.data.data]
       }
     })
