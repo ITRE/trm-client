@@ -19,12 +19,15 @@ const UserForm = (props) => {
     }
   }
 
+  console.log(props)
+
   return (
     <div>
     <Formik
       initialValues={{
         username: '',
         password: '',
+        confirm: '',
         name: '',
         email: '',
         role: 'Shareholder',
@@ -38,18 +41,34 @@ const UserForm = (props) => {
     >
       {({ errors, touched }) => (
         <Form className="download">
+
+          {props.account && <section className="formHeader">
+            <h2>Change Password</h2>
+            <label htmlFor="password">
+              New Password
+              <Field name="password" type="password" />
+            </label>
+
+            <label htmlFor="confirm">
+              Confirm Password
+              <Field name="confirm" type="password" />
+            </label>
+          </section>}
+
+          <h2>User Information</h2>
+
           <label htmlFor="username">
             Username
           <Field name="username" type="username" />
           </label>
 
-          <label htmlFor="password">
+          {props.new && <label htmlFor="password">
             Password <small>Must contain at least 8 characters, one capital letter, and one number</small>
             <Field name="password" type="password" />
             {errors.password && touched.password ? (
               <span className="error">{errors.password}</span>
             ) : null}
-          </label>
+          </label>}
 
           <label htmlFor="name">
             Name
@@ -69,23 +88,23 @@ const UserForm = (props) => {
             </Field>
           </label>
 
-          <hr></hr>
+          {props.new && <section className="formFooter">
+            <h2>Admin Credentials</h2>
+            <p>Creation of a new user requires the approval of an existing administator.</p>
 
-          <h2>Admin Credentials</h2>
-          <p>Creation of a new user requires the approval of an existing administator.</p>
+            <label htmlFor="admin">
+              Username
+              <Field name="admin" type="username" />
+            </label>
 
-          <label htmlFor="admin">
-            Username
-            <Field name="admin" type="username" />
-          </label>
-
-          <label htmlFor="admingPass">
-            Password
-            <Field name="admingPass" type="password" />
-          </label>
-
+            <label htmlFor="admingPass">
+              Password
+              <Field name="admingPass" type="password" />
+            </label>
+          </section>}
 
           <button type="submit">Submit</button>
+          <button className="cancel" onClick={()=>{props.history.goBack()}}>Cancel</button>
         </Form>
       )}
     </Formik>

@@ -6,3 +6,20 @@
   background-color: colors(grey, lighter);
   padding: 20px;
 }
+
+.formHeader {
+  border-bottom: 2px solid colors(grey, lighter);
+  margin-bottom:20px;
+  padding-bottom: 20px;
+}
+
+.formFooter {
+  border-top: 2px solid colors(grey, lighter);
+  margin-top:20px;
+  padding-top: 20px;
+}
+
+form h2 {
+  @include font($font-stack-system, '2', bold);
+  color: colors(secondary, dark);
+}

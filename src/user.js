@@ -20,7 +20,7 @@ const User = (props) => {
     <section>
       <h1>New User</h1>
       <p>This is an administrative account. For access to TRM, please request a download from the home page or email us at XXXXXXX </p>
-      <UserForm submit={props.newUser}/>
+      <UserForm new={true} submit={props.newUser} history={props.history}/>
     </section>
   </main>)
 }

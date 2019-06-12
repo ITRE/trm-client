@@ -20,7 +20,6 @@ class Account extends Component {
   }
 
   render() {
-
     return (
       <main className="wrapper">
         <section className="back_holder">
@@ -28,7 +27,7 @@ class Account extends Component {
         </section>
         <section>
           <h1>Recover</h1>
-          <UserForm />
+          <UserForm account={true} history={this.props.history} />
         </section>
       </main>
     );
