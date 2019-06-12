@@ -1,15 +1,9 @@
 import React from 'react'
 import moment from 'moment'
 import { connect } from "react-redux"
-import ACTIONS from "../modules/action"
-import { Redirect } from 'react-router-dom'
-import Swal from 'sweetalert2'
-import { CSVLink, CSVDownload } from "react-csv"
+import { CSVLink } from "react-csv"
 
-import Ticket from '../partial/ticket.js'
 import CanvasJSReact from "../externals/canvasjs.react"
-
-const CanvasJS = CanvasJSReact.CanvasJS;
 const CanvasJSChart = CanvasJSReact.CanvasJSChart;
 
 const mapStateToProps = state => ({
