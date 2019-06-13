@@ -47,30 +47,52 @@ const Dashboard = (props) => {
   }
 
   function close(id) {
-      let ticket = props.tickets.find((ticket) => ticket._id === id)
-      ticket.status= "Closed"
-      let log = {
-        type: 'Admin Close',
-        date: moment().format(),
-        message_id: '',
-        staff: props.user.email,
-        note: 'Ticket was marked closed.'
-      }
-      const email = false
-      props.sendEmail(ticket, log, email, props.history).then(res => {
-        Swal.fire({
-          title: 'Closed',
-          type: 'success',
-          text: 'This ticket has been marked as Closed.',
-        }).then(res=>{
-
-        }).catch(err=>console.log(err))
-      })
+    let ticket = props.tickets.find((ticket) => ticket._id === id)
+    ticket.status= "Closed"
+    let log = {
+      type: 'Admin Close',
+      date: moment().format(),
+      message_id: '',
+      staff: props.user.email,
+      note: 'Ticket was marked closed.'
     }
+    const email = false
+    props.sendEmail(ticket, log, email, props.history).then(res => {
+      Swal.fire({
+        title: 'Closed',
+        type: 'success',
+        text: 'This ticket has been marked as Closed.',
+      }).then(res=>{
+
+      }).catch(err=>console.log(err))
+    })
+  }
+
+  function version() {
+    Swal.fire({
+      title: 'Select image',
+      showCancelButton: true,
+      buttonsStyling: false,
+      confirmButtonText: 'Upload',
+      html:
+          '<input class="swal_file" type="file" id="swal-input1">' +
+          '<label class="swal_check"><input type="checkbox" id="swal-input2">Email New Version to Users?</label>',
+      preConfirm: () => {
+        return [
+          document.getElementById('swal-input1').value,
+          document.getElementById('swal-input2').value
+        ]
+      }
+    }).then(file => {
+      console.log(file)
+    })
+  }
+
   return (
   <section>
     <header>
       <h1>Welcome {props.user && props.user.name}</h1>
+      <button onClick={version}>Upload New Version</button>
     </header>
     <section className="Content flexible">
         {props.tickets &&

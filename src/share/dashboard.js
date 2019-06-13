@@ -120,13 +120,13 @@ const ShareDashboard = (props) => {
     <header>
       <h1>Welcome {props.user && props.user.name}</h1>
     </header>
-    <section className="Content flexible">
-      <article>
+    <section className="Content share">
+      <article className="share">
         <CanvasJSChart options={options} />
-        <CSVLink className="button" data={userExport}>Download User Data</CSVLink>
-        <CSVLink className="button" data={ticketExport}>Download Ticket Data</CSVLink>
       </article>
 
+      <CSVLink className="button" data={userExport}>Download User Data</CSVLink>
+      <CSVLink className="button" data={ticketExport}>Download Ticket Data</CSVLink>
     </section>
   </section>
 )};

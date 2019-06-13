@@ -44,14 +44,17 @@ button {
 
 button,
 .button {
+  @include font($font-stack-system, 'base', bold);
   background-color: colors(primary, base);
   border: 2px solid colors(primary, base);
   border-radius: 5px;
   color: colors(text, ink);
   display: inline-block;
-  margin: 20px 10px;
-  padding: 10px 20px;
+  margin: 10px;
+  padding: 20px;
+  text-align: center;
   text-decoration: none;
+  width: 90%;
 
   &.cancel {
     background-color: colors(secondary, base);
@@ -63,10 +66,6 @@ button,
     color: colors(primary, dark);
     cursor: pointer;
     text-decoration: underline;
-  }
-
-  &:first-of-type {
-    margin-left: 0;
   }
 
   &.cancel:hover {
@@ -91,4 +90,67 @@ button,
       text-decoration: underline;
     }
   }
+
+  @include for-tablet-landscape-up {
+    margin: 20px 10px;
+    padding: 10px 20px;
+    width: auto;
+
+    &:first-of-type {
+      margin-left: 0;
+    }
+  }
+}
+
+.swal2-actions {
+  .swal2-styled.swal2-cancel,
+  .swal2-cancel {
+    background-color: colors(secondary, base);
+    border: 2px solid colors(secondary, base);
+    border-radius: 5px;
+    color: colors(text, ink);
+
+    &:hover {
+      background-color: $background;
+      color: colors(secondary, dark);
+      cursor: pointer;
+      text-decoration: underline;
+    }
+  }
+
+  .swal2-styled.swal2-confirm ,
+  .swal2-confirm {
+    background-color: colors(primary, base);
+    border: 2px solid colors(primary, base);
+    border-radius: 5px;
+    color: colors(text, ink);
+
+    &:hover {
+      background-color: $background;
+      color: colors(primary, dark);
+      cursor: pointer;
+      text-decoration: underline;
+    }
+  }
+}
+
+
+.swal_check {
+  align-items: center;
+  display: flex;
+
+  input {
+    height: 15px;
+    margin: 0 10px;
+    width: 15px;
+  }
+}
+
+.swal_file {
+  align-items: center;
+  border: 0;
+  box-shadow: none;
+  display: flex;
+  height: 20px;
+  padding: 0;
 }

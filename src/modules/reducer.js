@@ -23,7 +23,8 @@ const todoReducer = (state = defaultState, action) => {
     case ACTIONS.Types.ATTEMPT_SEND:
     case ACTIONS.Types.ATTEMPT_REQUEST:
     case ACTIONS.Types.ATTEMPT_APPROVE:
-    case ACTIONS.Types.ATTEMPT_NEW_USER:  {
+    case ACTIONS.Types.ATTEMPT_NEW_USER:
+    case ACTIONS.Types.ATTEMPT_UPDATE_USER:  {
       return {...state,
         isFetching: true
       };
@@ -41,12 +42,16 @@ const todoReducer = (state = defaultState, action) => {
         isFetching: false
       };
     }
+    case ACTIONS.Types.UPDATE_USER_SUCCESS: {
+      return {...state,
+        user: action.payload.user,
+        isFetching: false
+      };
+    }
     case ACTIONS.Types.SEND_SUCCESS: {
       const index = state.tickets.findIndex((ticket) => ticket._id === action.payload.tickets._id)
       let newTickets = [...state.tickets]
-      console.log(newTickets[index])
       newTickets[index] = Object.assign(newTickets[index], action.payload.tickets)
-      console.log(newTickets[index])
       return {...state,
         tickets: newTickets,
         isFetching: false
@@ -55,9 +60,7 @@ const todoReducer = (state = defaultState, action) => {
     case ACTIONS.Types.APPROVE_SUCCESS: {
       const index = state.tickets.findIndex((ticket) => ticket._id === action.payload._id)
       let newTickets = [...state.tickets]
-      console.log(newTickets[index])
       newTickets[index] = Object.assign(newTickets[index], action.payload)
-      console.log(newTickets[index])
       return {...state,
         tickets: newTickets,
         isFetching: false
@@ -77,7 +80,6 @@ const todoReducer = (state = defaultState, action) => {
       };
     }
     case ACTIONS.Types.ERROR: {
-      console.log(typeof action.payload)
       if (typeof action.payload === 'object') {
         return {...state,
           error: action.payload.response.data.msg,

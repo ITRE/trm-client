@@ -14,6 +14,8 @@ const Types = {
   APPROVE_SUCCESS: "APPROVE_SUCCESS",
   ATTEMPT_NEW_USER: "ATTEMPT_NEW_USER",
   NEW_USER_SUCCESS: "NEW_USER_SUCCESS",
+  ATTEMPT_UPDATE_USER: "ATTEMPT_UPDATE_USER",
+  UPDATE_USER_SUCCESS: "UPDATE_USER_SUCCESS",
   CLEAR_ERROR: "CLEAR_ERROR",
   ERROR: "ERROR",
   LOGOUT: "LOGOUT"
@@ -90,6 +92,40 @@ const newUser = (info) => (dispatch) => {
     dispatch({
       type: Types.ERROR,
       payload: error
+    })
+  })
+}
+const updateUser = (info) => (dispatch) => {
+  return new Promise((resolve, reject) => {
+    dispatch({
+      type: Types.ATTEMPT_UPDATE_USER,
+      payload: info
+    })
+
+    return axios(`http://${config.api}/admin/${info.username}`, {
+      method: "put",
+      data: {
+        username: info.username,
+        password: info.password,
+        name: info.name,
+        email: info.email,
+        role: info.role
+      },
+      withCredentials: 'include'
+    }).then(res => {
+      dispatch({
+        type: Types.UPDATE_USER_SUCCESS,
+        payload: {
+          user: res.data.data
+        }
+      })
+      resolve(res.data.data)
+    }).catch(error => {
+      dispatch({
+        type: Types.ERROR,
+        payload: error
+      })
+      reject(error)
     })
   })
 }
@@ -197,6 +233,7 @@ export default {
   login,
   logOut,
   newUser,
+  updateUser,
   sendEmail,
   requestDownload,
   approveDownload,
