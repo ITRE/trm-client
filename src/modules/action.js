@@ -8,6 +8,8 @@ const Types = {
   LOGIN_SUCCESS: "LOGIN_SUCCESS",
   ATTEMPT_REQUEST: "ATTEMPT_REQUEST",
   REQUEST_SUCCESS: "REQUEST_SUCCESS",
+  ATTEMPT_UPLOAD: "ATTEMPT_UPLOAD",
+  UPLOAD_SUCCESS: "UPLOAD_SUCCESS",
   ATTEMPT_SEND: "ATTEMPT_SEND",
   SEND_SUCCESS: "SEND_SUCCESS",
   ATTEMPT_APPROVE: "ATTEMPT_APPROVE",
@@ -228,6 +230,36 @@ const approveDownload = (ticket, kind, log) => (dispatch) => {
   })
 }
 
+const updateDownload = (upload, email) => (dispatch) => {
+  return new Promise((resolve, reject) => {
+    dispatch({
+      type: Types.ATTEMPT_UPLOAD
+    })
+
+    axios(`http://${config.api}/version`, {
+      method: "post",
+      data: {
+        files: upload,
+        email: email
+      },
+      withCredentials: 'include'
+    })
+    .then(res => {
+      dispatch({
+        type: Types.UPLOAD_SUCCESS
+      })
+      resolve(res.data.data)
+    })
+    .catch(error => {
+      dispatch({
+        type: Types.ERROR,
+        payload: error
+      })
+      reject(error)
+    })
+  })
+}
+
 export default {
   fetchTickets,
   login,
@@ -237,6 +269,7 @@ export default {
   sendEmail,
   requestDownload,
   approveDownload,
+  updateDownload,
   clearError,
   Types
 };

@@ -75,17 +75,36 @@ const Dashboard = (props) => {
       buttonsStyling: false,
       confirmButtonText: 'Upload',
       html:
-          '<input class="swal_file" type="file" id="swal-input1">' +
-          '<label class="swal_check"><input type="checkbox" id="swal-input2">Email New Version to Users?</label>',
+          '<label>File Name<input type="text" id="upload-name"></label>' +
+          '<label>Version<input type="text" id="upload-version"></label>' +
+          '<label>Google Share Link<input type="text" id="upload-share"></label>' +
+          '<label class="swal_check"><input type="checkbox" id="upload-email">Email New Version to Users?</label>',
       preConfirm: () => {
-        return [
-          document.getElementById('swal-input1').value,
-          document.getElementById('swal-input2').value
-        ]
+        let share = document.getElementById('upload-share').value.match(/[-\w]{25,}/)
+        let name = document.getElementById('upload-name').value
+        let version = document.getElementById('upload-version').value
+        if(!share) {
+          Swal.showValidationMessage('Share link was not recognized.')
+        } else if(!name) {
+          Swal.showValidationMessage('Please provide a file name.')
+        } else if(!version) {
+          Swal.showValidationMessage('Please indicate the version number.')
+        } else {
+          return [{
+            name: name,
+            version: version,
+            fileID: share[0]
+          }, document.getElementById('upload-email').checked]
+        }
       }
-    }).then(file => {
-      console.log(file)
-    })
+    }).then(upload => {
+      if (upload.dismiss) {
+        return
+      }
+      props.updateDownload(upload[0], upload[1])
+    }).then(res=>{
+
+    }).catch(err=>console.log(err))
   }
 
   return (
@@ -136,6 +155,9 @@ const Dashboard = (props) => {
 
 export default connect(
   mapStateToProps,
-  {approveDownload: ACTIONS.approveDownload,
-  sendEmail: ACTIONS.sendEmail}
+  {
+    approveDownload: ACTIONS.approveDownload,
+    sendEmail: ACTIONS.sendEmail,
+    updateDownload: ACTIONS.updateDownload
+  }
 )(Dashboard);

@@ -24,6 +24,7 @@ const todoReducer = (state = defaultState, action) => {
     case ACTIONS.Types.ATTEMPT_REQUEST:
     case ACTIONS.Types.ATTEMPT_APPROVE:
     case ACTIONS.Types.ATTEMPT_NEW_USER:
+    case ACTIONS.Types.ATTEMPT_UPLOAD:
     case ACTIONS.Types.ATTEMPT_UPDATE_USER:  {
       return {...state,
         isFetching: true
@@ -66,7 +67,8 @@ const todoReducer = (state = defaultState, action) => {
         isFetching: false
       };
     }
-    case ACTIONS.Types.REQUEST_SUCCESS: {
+    case ACTIONS.Types.REQUEST_SUCCESS:
+    case ACTIONS.Types.UPLOAD_SUCCESS: {
       return {...state,
         isFetching: false
       };

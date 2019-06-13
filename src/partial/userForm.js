@@ -13,6 +13,7 @@ const UserForm = (props) => (
         if (props.account && !values.password) {
           Swal.fire({
             title: 'Enter your password to confirm changes',
+            type: 'info',
             input: 'password',
             showCancelButton: true,
             inputValidator: (input) => {
