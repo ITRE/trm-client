@@ -70,7 +70,7 @@ const Dashboard = (props) => {
 
   function version() {
     Swal.fire({
-      title: 'Select image',
+      title: 'Select File',
       showCancelButton: true,
       buttonsStyling: false,
       confirmButtonText: 'Upload',

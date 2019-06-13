@@ -43,7 +43,7 @@ const login = (credentials) => (dispatch) => {
     payload: credentials
   })
 
-  return axios(`http://${config.api}/login`, {
+  return axios(`https://${config.api}/login`, {
     method: "post",
     data: {username: credentials.username, password: credentials.password},
     withCredentials: 'include'
@@ -71,7 +71,7 @@ const newUser = (info) => (dispatch) => {
     payload: info
   })
 
-  return axios(`http://${config.api}/admin`, {
+  return axios(`https://${config.api}/admin`, {
     method: "post",
     data: {
       username: info.username,
@@ -104,7 +104,7 @@ const updateUser = (info) => (dispatch) => {
       payload: info
     })
 
-    return axios(`http://${config.api}/admin/${info.username}`, {
+    return axios(`https://${config.api}/admin/${info.username}`, {
       method: "put",
       data: {
         username: info.username,
@@ -138,7 +138,7 @@ const sendEmail = (ticket, log, email) => (dispatch) => {
       type: Types.ATTEMPT_SEND
     })
 
-    axios(`http://${config.api}/tickets/${ticket._id}`, {
+    axios(`https://${config.api}/tickets/${ticket._id}`, {
       method: "put",
       data: {
         ticket: ticket,
@@ -172,7 +172,7 @@ const requestDownload = (ticket, kind) => (dispatch) => {
       type: Types.ATTEMPT_REQUEST
     })
 
-    axios(`http://${config.api}/messages`, {
+    axios(`https://${config.api}/messages`, {
       method: "post",
       data: {
         ticket: ticket,
@@ -203,7 +203,7 @@ const approveDownload = (ticket, kind, log) => (dispatch) => {
       type: Types.ATTEMPT_APPROVE
     })
 
-    axios(`http://${config.api}/messages/${ticket._id}`, {
+    axios(`https://${config.api}/messages/${ticket._id}`, {
       method: "put",
       data: {
         ticket: ticket,
@@ -236,7 +236,7 @@ const updateDownload = (upload, email) => (dispatch) => {
       type: Types.ATTEMPT_UPLOAD
     })
 
-    axios(`http://${config.api}/version`, {
+    axios(`https://${config.api}/version`, {
       method: "post",
       data: {
         files: upload,
