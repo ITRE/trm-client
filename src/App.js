@@ -33,7 +33,7 @@ const App = (props) => {console.log(props); return(
     <header className="header">
 
       {props.loggedIn &&
-        <a className="logo" href="/dashboard">
+        <a className="logo" href="/admin">
           <img src={logo} alt="Spinning Logo" />
         </a>
       }
@@ -50,7 +50,7 @@ const App = (props) => {console.log(props); return(
             <a href="/admin/account">
               Account
             </a>
-            <button className="link dark" onClick={props.logOut}>
+            <button onClick={props.logOut}>
               Log Out
             </button>
           </div>

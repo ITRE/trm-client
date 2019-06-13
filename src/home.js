@@ -12,7 +12,7 @@ class Home extends Component {
         </header>
         <section className="splash">
           <h1>Some Kind of Title!</h1>
-          <a className="button" href="/download">Download Now</a>
+          <a className="button" href="/download">Request Download</a>
         </section>
         <section className="Content">
           <p>
@@ -21,6 +21,13 @@ class Home extends Component {
             Durham-Chapel Hill-Carrboro Metropolitan Planning Organization, Capital Area Metropolitan Planning Organization, and GoTriangle.
             The Triangle Regional Model is used to plan transportation investments in the Triangle region of North Carolina.
           </p>
+        </section>
+        <section className="Content">
+          <h3>Having an issue?</h3>
+          <p>
+            You can email us any time at blahblah@gmai.com, or you can click below to fill out a form.
+          </p>
+          <a className="button cancel" href="/help">Request Assistance</a>
         </section>
       </main>
     );

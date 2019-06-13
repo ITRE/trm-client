@@ -55,22 +55,30 @@
       top: 51px;
     }
   }
+}
 
-  .submenu {
-    display: none;
+.submenu {
+  display: none;
 
-    button,
-    a {
-      background-color: transparent;
-      border-top: 2px solid colors(text, base);
-      border-radius: 0;
-      box-sizing: border-box;
-      color: colors(text, base);
-      display: block;
-      margin: 0 0 0 0;
-      padding: 10px 20px;
-      text-align: center;
-      width: 100%;
+  button,
+  a {
+    @include font($font-stack-system, 'base', bold);
+    background-color: transparent;
+    border-top: 2px solid colors(text, base);
+    border-radius: 0;
+    box-sizing: border-box;
+    color: colors(text, base);
+    display: block;
+    margin: 0 0 0 0;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    width: 100%;
+
+    &:hover {
+      background-color: colors(text, base);
+      color: colors(text, inverse);
+      text-decoration: underline;
     }
   }
 }

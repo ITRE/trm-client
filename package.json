@@ -1,6 +1,12 @@
 {
-  "name": "trm",
+  "name": "trm-client",
   "version": "0.1.0",
+  "author": "Devin Cremins (https://octopusoddments.com)",
+  "bugs": "https://github.com/ITRE/trm-client/issues",
+  "repository": "github:ITRE/trm-client",
+  "private": true,
+  "license": "MIT",
+  "homepage": "https://trm.netlify.com/",
   "dependencies": {
     "axios": "^0.18.0",
     "formik": "^1.5.7",
