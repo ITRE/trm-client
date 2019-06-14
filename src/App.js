@@ -9,6 +9,7 @@ import logo from './assets/logo.svg'
 import Home from './home.js'
 import Download from './download.js'
 import Login from './login.js'
+import Help from './help.js'
 import User from './user.js'
 import Recover from './recover.js'
 import Admin from './admin.js'
@@ -71,6 +72,7 @@ const App = (props) => {console.log(props); return(
         <Route path="/login/:user/:token" component={Recover} />
         <Route path="/user" component={User} />
         <Route path="/login" component={Login} />
+        <Route path="/help" component={Help} />
         <Route path="/" component={Home} />
       </Switch>
     </Router>

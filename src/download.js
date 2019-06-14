@@ -131,6 +131,7 @@ class Download extends Component {
                 </label>
 
                 <button type="submit">Submit</button>
+                <button className="cancel" type="button" onClick={() => this.props.history.goBack()}>Cancel</button>
               </Form>
             )}
           </Formik>

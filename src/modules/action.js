@@ -166,6 +166,39 @@ const sendEmail = (ticket, log, email) => (dispatch) => {
   })
 }
 
+const requestHelp = (ticket) => (dispatch) => {
+  return new Promise((resolve, reject) => {
+    dispatch({
+      type: Types.ATTEMPT_REQUEST
+    })
+
+    axios(`https://${config.api}/tickets`, {
+      method: "put",
+      data: {
+        email: ticket.email,
+        subject: ticket.subject,
+        desc: ticket.desc
+      },
+      withCredentials: 'include'
+    })
+    .then(res => {
+      console.log(res)
+      dispatch({
+        type: Types.REQUEST_SUCCESS
+      })
+      resolve('Success')
+    })
+    .catch(error => {
+      dispatch({
+        type: Types.ERROR,
+        payload: error
+      })
+      reject(error)
+    })
+  })
+}
+
+
 const requestDownload = (ticket, kind) => (dispatch) => {
   return new Promise((resolve, reject) => {
     dispatch({
@@ -267,6 +300,7 @@ export default {
   newUser,
   updateUser,
   sendEmail,
+  requestHelp,
   requestDownload,
   approveDownload,
   updateDownload,

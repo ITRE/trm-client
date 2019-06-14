@@ -20,6 +20,7 @@ const Ticket = (props) => {
         <p><strong>User: </strong>{props.user}</p>
         <p><strong>Staff: </strong>{props.staff ? props.staff : 'Not Assigned'}</p>
         <p><strong>Kind: </strong>{props.kind}</p>
+        {props.info.desc && <p><strong>Description: </strong>{props.info.desc}</p>}
           <Link
             className="button"
             to={{

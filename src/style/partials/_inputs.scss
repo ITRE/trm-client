@@ -40,6 +40,11 @@ button {
   display: block;
   margin: 20px auto;
   text-align: left;
+
+  .error {
+    color: colors(text, error);
+    position: relative;
+  }
 }
 
 button,

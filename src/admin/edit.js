@@ -32,6 +32,7 @@ class Edit extends Component {
   }
 
   componentDidMount() {
+    console.log(this.props.location.state.ticket)
     this.setState({...this.state,
       ticket: this.props.location.state.ticket
     })
@@ -128,6 +129,8 @@ class Edit extends Component {
               </label>
             </section>
             <section className="email">
+
+              {this.state.ticket.info && <p><strong>Description: </strong>{this.state.ticket.info.desc}</p>}
 
               {this.state.ticket.log && this.state.ticket.log.map(entry => <Log
                 key={entry._id}
